@@ -1,0 +1,46 @@
+#include <iostream>
+#include <fstream>
+
+using namespace std;
+
+int main() {
+    ifstream inputFile("input.txt");
+    
+    if (!inputFile.is_open()) {
+        cerr << "Dosya açılamadı!" << endl;
+        return 1;
+    }
+
+    int count;
+    inputFile >> count;
+
+    int integers[count];
+
+    for (int i = 0; i < count; ++i) {
+        inputFile >> integers[i];
+    }
+
+    inputFile.close();
+
+    int totalSum = 0;
+    int totalProduct = 1;
+    int smallest = integers[0];
+
+    for (int i = 0; i < count; ++i) {
+        totalSum += integers[i];
+        totalProduct *= integers[i];
+        if (integers[i] < smallest) {
+            smallest = integers[i];
+        }
+    }
+
+    double average = static_cast<double>(totalSum) / count;
+
+    cout << "Count of integers: " << count << endl;
+    cout << "Sum: " << totalSum << endl;
+    cout << "Product: " << totalProduct << endl;
+    cout << "Average: " << average << endl;
+    cout << "Smallest number: " << smallest << endl;
+
+    return 0;
+}

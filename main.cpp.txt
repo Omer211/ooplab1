@@ -1,46 +1,50 @@
 #include <iostream>
 #include <fstream>
-
-using namespace std;
+#include <vector>
+#include <limits>
 
 int main() {
-    ifstream inputFile("input.txt");
-    
+    std::ifstream inputFile("input.txt");
+
     if (!inputFile.is_open()) {
-        cerr << "Dosya açılamadı!" << endl;
+        std::cerr << "Error: Could not open input file." << std::endl;
         return 1;
     }
 
-    int count;
-    inputFile >> count;
+    std::vector<int> numbers;
+    int num;
 
-    int integers[count];
-
-    for (int i = 0; i < count; ++i) {
-        inputFile >> integers[i];
-    }
-
-    inputFile.close();
-
-    int totalSum = 0;
-    int totalProduct = 1;
-    int smallest = integers[0];
-
-    for (int i = 0; i < count; ++i) {
-        totalSum += integers[i];
-        totalProduct *= integers[i];
-        if (integers[i] < smallest) {
-            smallest = integers[i];
+    for (int i = 0; i < 4; ++i) {
+        if (inputFile >> num) {
+            numbers.push_back(num);
+        }
+        else {
+            std::cerr << "Error: Unable to read 4 integers from the file." << std::endl;
+            return 1;
         }
     }
 
-    double average = static_cast<double>(totalSum) / count;
+    
+    int sum = 0;
+    int product = 1;
+    int biggest = std::numeric_limits<int>::min(); 
 
-    cout << "Count of integers: " << count << endl;
-    cout << "Sum: " << totalSum << endl;
-    cout << "Product: " << totalProduct << endl;
-    cout << "Average: " << average << endl;
-    cout << "Smallest number: " << smallest << endl;
+    for (int number : numbers) {
+        sum += number;
+        product *= number;
+        if (number > biggest) {
+            biggest = number;
+        }
+    }
 
+    double average = static_cast<double>(sum) / 4;
+
+    
+    std::cout << "Sum: " << sum << std::endl;
+    std::cout << "Product: " << product << std::endl;
+    std::cout << "Average: " << average << std::endl;
+    std::cout << "Biggest Number: " << biggest << std::endl;
+
+    inputFile.close();
     return 0;
 }
